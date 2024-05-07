@@ -1,9 +1,21 @@
-import {Router} from "express"
+import { Router } from 'express';
+import multer from 'multer';
+import multerConfig from './config/multer';
 
-const routes = new Router()
+import UserController
+ from './app/controllers/UserController';
+ 
+import SessionController from './app/controllers/SessionController';
 
-routes.get('/', (request, response) =>{
-    return response.json({message:"heloo World"})
-})
+import ProductController from './app/controllers/ProductController';
 
-export default  routes
+const upload = multer(multerConfig)
+
+
+const routes = new Router();
+
+routes.post('/users', UserController.store) 
+routes.post('/sessions', SessionController.store) 
+routes.post('/products', upload.single('file') ,ProductController.store)
+
+export default routes;
